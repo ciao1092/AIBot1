@@ -48,8 +48,11 @@ internal abstract class Program
 		KeywordResponses.Add(new KeywordEntry(["i", "did", "not"], ["Do you think it is important for you to?"]));
 		KeywordResponses.Add(new KeywordEntry(["i", "am", "not"],
 			["Why not?", "You are being negative.", "You are not?"]));
+		KeywordResponses.Add(new KeywordEntry(["was"], []));
 		KeywordResponses.Add(new KeywordEntry(["i", "was"], ["You were?", "How did that make you feel?"]));
 		KeywordResponses.Add(new KeywordEntry(["i", "was", "not"], ["How did that make you feel?", "Why not?"]));
+		KeywordResponses.Add(new KeywordEntry(["do", "i"], ["Do you?"]));
+		KeywordResponses.Add(new KeywordEntry(["do", "not", "i"], ["You do not?"]));
 		KeywordResponses.Add(new KeywordEntry(["not"], ["Why not?", "You are being negative."]));
 		KeywordResponses.Add(new KeywordEntry(["no"], ["You are being negative."]));
 		KeywordResponses.Add(new KeywordEntry(["who"], ["I am not really sure."]));
