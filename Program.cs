@@ -75,7 +75,7 @@ internal abstract class Program
 			if (QuitWords.Contains(processedInput))
 			{
 				Console.WriteLine(PickRandomAnswer([
-					"Bye", "Bye.", "See you soon!", "It has been a pleasure to chat with you."
+					"Bye", "Bye.", "See you soon!"
 				]));
 				break;
 			}
