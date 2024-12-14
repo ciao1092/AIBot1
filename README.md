@@ -1,4 +1,4 @@
 # AIBot1
 
-A stupid bot written in C#
+A simple chatbot written in C#
 inspired by Eliza Bot
