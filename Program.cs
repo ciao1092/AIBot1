@@ -6,9 +6,10 @@ internal abstract class Program
 {
 	private const string Version = "1.0.0";
 
-	private class KeywordEntry(string[] keywords, string[] answers, int? priority = null)
+	private class KeywordEntry(string[] keywords, string[] answers, string[]? synonims = null, int? priority = null)
 	{
 		public string[] Keywords { get; } = keywords;
+		public string[] Synonims { get; } = synonims ?? [];
 		public string[] Answers { get; } = answers;
 		public int? Priority { get; } = priority;
 	}
@@ -35,10 +36,10 @@ internal abstract class Program
 
 	private static bool _botInitialized;
 
-	private static void InitBot()
+	private static void InitBot(bool doNotSayHello = false)
 	{
 		KeywordResponses.Add(new KeywordEntry(["hello"],
-			["Hello! How can I help you?", "Hi there, what's on your mind?"]));
+			["Hello! How can I help you?", "Hi there, what's on your mind?"], ["hi", "sup", "up"]));
 		KeywordResponses.Add(new KeywordEntry(["you"], ["Let's talk about you", "I am just a bot"]));
 		KeywordResponses.Add(new KeywordEntry(["what"], ["What do you think?"]));
 		KeywordResponses.Add(new KeywordEntry(["what", "name"], ["I'm Bot.", "Hi! My name is Bot."]));
@@ -57,10 +58,13 @@ internal abstract class Program
 		KeywordResponses.Add(new KeywordEntry(["no"], ["You are being negative."]));
 		KeywordResponses.Add(new KeywordEntry(["who"], ["I am not really sure."]));
 		KeywordResponses.Add(new KeywordEntry(["created"], []));
-		KeywordResponses.Add(new KeywordEntry(["you", "created", "who"], ["I was created by ciao1092 on Dec 13 2024."]));
+		KeywordResponses.Add(new KeywordEntry(["you", "created", "who"], ["I was created by ciao1092 on Dec 13 2024."], ["by"]));
+		KeywordResponses.Add(new KeywordEntry(["mother", "mom"], ["Who reminds you of your mother?"]));
+		KeywordResponses.Add(new KeywordEntry(["father", "dad"], ["Who reminds you of your father?"]));
+		KeywordResponses.Add(new KeywordEntry(["father", "dad"], ["Who reminds you of your father?"]));
 
 		_botInitialized = true;
-		Console.WriteLine($"Hello, I am Bot version \"{Version}\".");
+		if (!doNotSayHello) Console.WriteLine($"Hello, I am Bot version \"{Version}\".");
 	}
 
 	private static void RunBot()
@@ -85,6 +89,14 @@ internal abstract class Program
 			for (var i = 0; i < KeywordResponses.Count; i++)
 			{
 				var k = KeywordResponses.ElementAt(i);
+				for (int x = 0; x < inputWords.Length; x++)
+				{
+					string word = inputWords[x];
+					if (k.Synonims.Contains(word))
+					{
+						inputWords[x] = k.Keywords[0];
+					}
+				}
 				float currentMatchQuality = inputWords.Count(word => k.Keywords.Contains(word));
 				currentMatchQuality /= k.Keywords.Length;
 
@@ -115,11 +127,11 @@ internal abstract class Program
 			if (bestMatchIdx >= 0 && bestMatchQuality > 0)
 				answer = PickRandomAnswer(KeywordResponses.ElementAt(bestMatchIdx).Answers);
 
-			Console.WriteLine(answer ?? PickRandomAnswer(["Please continue.", "I see."]));
+			Console.WriteLine(answer ?? PickRandomAnswer(["Please continue.", "I see.", "I am not sure I understand you fully"]));
 		}
 	}
 
-	public static void Main(string[] args)
+	public static void Main()
 	{
 		InitBot();
 		RunBot();
